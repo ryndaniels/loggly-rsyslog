@@ -1,0 +1,64 @@
+Description
+===========
+
+Installs and configures rsyslog for [Loggly](http://www.loggly.com). Makes use of user-provided lists of files and/or directories to create the appropriate rsyslog configuration file.
+
+Requirements
+============
+
+Platform
+--------
+
+This should work on any linux platform that has rsyslog installed. It has been tested on Ubuntu 12.04.
+
+Attributes
+==========
+
+* `node['loggly']['token']` - Your Loggly customer token (required).
+* `node['loggly']['dashboard_url']` - The URL of your Loggly (optional).
+* `node['loggly']['logfiles']` - A list of individual logfiles to monitor (optional). Each logfile to be monitored is of the format:
+    ```
+    {
+
+        :filename => "/var/log/filename.log",
+
+        :tag => "tag you want for this logfile",
+
+        :statefile => "unique-name-for-statefile"
+
+    }
+    ```
+* `node['loggly']['logdirs']` - A list of directories to monitor (optional). The rsyslog.conf template will create an [imfile](http://www.rsyslog.com/doc/imfile.html) block for each file ending in '.log' in that directory. Each logdir in the list is of the format:
+    ```
+    {
+
+        :directory => "/var/log/directory",
+
+        :tag => "tag for all files in this directory"
+
+    }
+    ```
+
+Usage
+=====
+
+Include the default recipe in a run list to have rsyslog run. Include your Loggly customer token and any logfiles and directories you want to send data to loggly in the `node['loggly']` attributes. Rsyslog will restart when the specified logfiles or directories change.
+
+Licence and Author
+==================
+
+Author:: Ryn Daniels
+
+Copyright:: 2014, GameChanger Media.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
